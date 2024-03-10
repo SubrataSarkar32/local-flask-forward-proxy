@@ -4,3 +4,13 @@ Local flask based forward proxy webapp. The flask app acts as a forward proxy al
 
 
 Improvements need to be made for http2 based connections
+
+run the application with
+
+`python local_flask_proxy_all.py`
+
+then access some url in your browser lets say you visit pagamesssddr
+
+`localhost:5000/pagamesssddr.com/login`
+
+you should see the login details captured in `data_logs.txt`

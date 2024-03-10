@@ -26,3 +26,8 @@ Mar 10, 2024
 Target url is https://webgl-globe
 Target url with path is https://webgl-globe/data/fallback.json
 b''
+
+Mar 10, 2024
+Target url is https://pagamesssddr.com
+Target url with path is https://pagamesssddr.com/login
+b''
