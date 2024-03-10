@@ -14,3 +14,5 @@ then access some url in your browser lets say you visit pagamesssddr
 `localhost:5000/pagamesssddr.com/login`
 
 you should see the login details captured in `data_logs.txt`
+
+For this reason it is important that you use a trustable proxy service if you use one at all
