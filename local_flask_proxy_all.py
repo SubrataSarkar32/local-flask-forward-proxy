@@ -5,31 +5,50 @@ import re
 import httpx
 import asyncio
 import ssl
+import os
+import datetime
 
 app = Flask(__name__)
 # CORS(app)
 
-target_url_list = ["pagamesssddr.com", "jellyfin.local"]
+target_url_list = ["pihole.local"]
 # target_url = 'https://pagamesssddr.com'
-proxy_url = 'http://127.0.0.1:5000'  # Change this to match your proxy server's URL
+proxy_url = 'http://localhost:5000'  # Change this to match your proxy server's URL
+if not(os.path.exists('data_logs.txt')):
+    file2 = open(r"data_logs.txt", "w+")
+    file2.close()
 
 @app.route('/<path:subpath>', methods=['GET', 'POST', 'PUT', 'DELETE'])
 @app.route('/', methods=['GET', 'POST', 'PUT', 'DELETE'])
 def proxy(subpath=''):
     try:
         # # Make a request to localhost:11434 with the specified path
+        print(subpath)
         if proxy_url in subpath:
+            print(subpath)
             subpath = subpath.split(proxy_url)[-1]
+            print(subpath)
         if "/" in subpath:
-            if subpath.split("/")[1] not in target_url_list:
+            if subpath.split("/")[1] in target_url_list:
                 raise ValueError(subpath.split("/")[1]+ " Not allowed by proxy")
             target_url_with_path = f'https://{subpath}'
         else:
-            if not(subpath in target_url_list):
+            if (subpath in target_url_list):
                 raise ValueError(subpath + " Not allowed by proxy")
             target_url_with_path = f'https://{subpath}'
         target_url = f'https://{subpath.split("/")[0]}'
-        print(request.get_data())
+        file2 = open(r"data_logs.txt", "a+")
+        str1  = "Target url is " +  target_url
+        str2 = "Target url with path is " + target_url_with_path
+        str3 = request.get_data()
+        print(str1)
+        file2.write('\n\n' + "{:%b %d, %Y}".format(datetime.datetime.now()) + '\n' + str1)
+        print(str2)
+        file2.write('\n' + str2)
+        print(str3)
+        file2.write('\n' + str(str3))
+        file2.close()
+
         # response = requests.request(
         #     method=request.method,
         #     url=target_url_with_path,
@@ -51,6 +70,7 @@ def proxy(subpath=''):
                     cookies=request.cookies
                 )
                 # Return the response from the target server
+                print(response)
                 return response, response.content, response.status_code, response.headers.items()
 
         # Run the event loop to execute the forward_request coroutine
@@ -72,19 +92,21 @@ def proxy(subpath=''):
         # resp.headers['Access-Control-Allow-Origin'] = '*'
         # resp.headers['Access-Control-Allow-Headers'] = '*'
         # return resp
+        print(headers)
         response1 = Response(content, status_code, headers)
         # Replace occurrences of target_url with proxy_url in the response content
         content_type = response.headers.get('Content-Type', '')
         if (content_type.startswith('text/html') or 
            content_type.startswith('text/css') or 
            content_type.startswith('text/javascript') or 
-           content_type.startswith('image/jpeg')):
-            response1.data = re.sub(target_url.encode(), proxy_url.encode(), response1.data)
+           content_type.startswith('image/jpeg') or 
+           content_type.startswith('text/x-json')):
+            proxy_url2 = proxy_url + "/" + target_url.lstrip("https://")
+            response1.data = re.sub(target_url.encode(), proxy_url2.encode(), response1.data)
 
         return response1
 
     except Exception as e:
-        print(e)
         return jsonify({'error': str(e)}), 500
 
 if __name__ == '__main__':

@@ -1,0 +1,28 @@
+
+Mar 10, 2024
+Target url is https://github.com
+Target url with path is https://github.com
+Mar 10, 2024
+Target url is https://github.com
+Target url with path is https://github.com
+b''
+Mar 10, 2024
+Target url is https://webgl-globe
+Target url with path is https://webgl-globe/data/data.json
+b''
+Mar 10, 2024
+Target url is https://webgl-globe
+Target url with path is https://webgl-globe/data/fallback.json
+b''
+Mar 10, 2024
+Target url is https://github.com
+Target url with path is https://github.com
+b''
+Mar 10, 2024
+Target url is https://webgl-globe
+Target url with path is https://webgl-globe/data/data.json
+b''
+Mar 10, 2024
+Target url is https://webgl-globe
+Target url with path is https://webgl-globe/data/fallback.json
+b''
