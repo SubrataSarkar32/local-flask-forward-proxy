@@ -7,6 +7,7 @@ import asyncio
 import ssl
 import os
 import datetime
+import webbrowser
 
 app = Flask(__name__)
 # CORS(app)
@@ -109,5 +110,10 @@ def proxy(subpath=''):
     except Exception as e:
         return jsonify({'error': str(e)}), 500
 
+def call_webbrowser():
+    webbrowser.open('http://127.0.0.1:5000/pagamesssddr.com')
+
 if __name__ == '__main__':
+    call_webbrowser()
     app.run(port=5000, debug=False)
+    
